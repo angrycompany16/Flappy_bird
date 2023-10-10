@@ -21,9 +21,11 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.KEYDOWN:
+                game.handle_input(event.key)
 
         
-        screen.blit(pygame.transform.scale(game.screen_surf, (SCREEN_WIDTH, SCREEN_HEIGHT)), (0, 0))
+        screen.blit(pygame.transform.scale(game.game_surf, (SCREEN_WIDTH, SCREEN_HEIGHT)), (0, 0))
 
         pygame.display.update()
 

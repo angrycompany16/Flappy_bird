@@ -3,6 +3,15 @@ import pygame
 # SCREEN_WIDTH, SCREEN_HEIGHT = 800, 1000
 GAME_WIDTH, GAME_HEIGHT = 150, 200
 PIXEL_SCALE_FACTOR = 4
+SUBPIXEL_SCALE_FACTOR = 8
+
+FLOOR_HEIGHT = 8
+
+GRAVITY = 70
+
+JUMP_SPEED = 30
+
+PLAYER_LEFT_POS = 20            # player is positioned 20 px to the right on the screen
 
 
 BLACK = pygame.Color(0, 0, 0)
