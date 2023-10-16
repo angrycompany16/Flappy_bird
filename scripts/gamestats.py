@@ -10,11 +10,12 @@ class GameState(Enum):
 class GameStats():
     obstacle_movement_speed = 40
     obstacle_spacing = 100
-    obstacle_spawn_period = 4
+    obstacle_spawn_period = 2
 
     current_state = GameState.START_MENU
 
     @classmethod
     def update_stats(cls, dt):
-        cls.obstacle_movement_speed += 0.001 * dt
-        cls.obstacle_spacing -= 0.001 * dt
+        cls.obstacle_movement_speed += 0.01 * dt
+        cls.obstacle_spacing -= 0.1 * dt
+        cls.obstacle_spawn_period -= 0.01 * dt

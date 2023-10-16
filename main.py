@@ -22,13 +22,13 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
-                game.handle_input(event.key)
+                game.handle_keypress(event.key)
+            elif event.type == pygame.KEYUP:
+                game.handle_keyrelease(event.key)
 
-        
         screen.blit(pygame.transform.scale(game.game_surf, (SCREEN_WIDTH, SCREEN_HEIGHT)), (0, 0))
 
         pygame.display.update()
-
 
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@ from scripts.constants import *
 from scripts.player import Player
 from scripts.obstacle import Obstacle
 from scripts.gamestats import GameStats, GameState
+from scripts.sound_manager import SoundManager
 
 class Game:
     def __init__(self) -> None:
@@ -22,6 +23,8 @@ class Game:
         self._background_image = pygame.image.load("images/background.png")
         self._floor_image = pygame.image.load("images/floor.png")
         self._floor_scroll = 0
+
+        self._time_since_obstacle_spawn = 0
 
         self._objects = []
         self._objects.append(Obstacle())
@@ -52,6 +55,11 @@ class Game:
                 self._playing_surf.convert_alpha()
                 self._background_surf.blit(self._background_image, (0, 0))
 
+                self._time_since_obstacle_spawn += dt
+                if self._time_since_obstacle_spawn > GameStats.obstacle_spawn_period:
+                    self._time_since_obstacle_spawn = 0
+                    self.spawn_obstacle()
+
                 for object in self._objects:
                     object.update(dt)
                     object.draw(self._playing_surf)
@@ -81,15 +89,22 @@ class Game:
             case _:
                 print("Game state error")
 
-
-    def handle_input(self, key) -> None:
+    def handle_keypress(self, key) -> None:
         if key == pygame.K_UP or key == pygame.K_SPACE:
             if GameStats.current_state == GameState.START_MENU:
                 GameStats.current_state = GameState.PLAYING
-                self._player.jump()
-            elif GameStats.current_state == GameState.PLAYING:
-                self._player.jump()
 
+            self._player.jump()
+            self._player.flap_down()
+            SoundManager.flap_sound.play()
+
+    def handle_keyrelease(self, key) -> None:
+        if key == pygame.K_UP or key == pygame.K_SPACE:
+            self._player.flap_up()
+
+    def spawn_obstacle(self) -> None:
+        newObstacle = Obstacle()
+        self._objects.append(newObstacle)
 
     @property
     def game_surf(self) -> pygame.Surface:

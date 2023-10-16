@@ -1,7 +1,7 @@
 import pygame
 from scripts.object import Object
 from scripts.constants import *
-from scripts.gamestats import GameStats
+from scripts.gamestats import GameStats, GameState
 from scripts.collision_checker import CollisionChecker
 from random import uniform
 
@@ -13,20 +13,21 @@ class Obstacle(Object):
         self._top_rect = self._top.get_rect()
         self._bottom_rect = self._bottom.get_rect()
 
-        random_offset = GAME_HEIGHT - 32 - GameStats.obstacle_spacing
-        # random_offset = uniform(32, GAME_HEIGHT - 32 - GameStats.obstacle_spacing)
+        self._spacing = GameStats.obstacle_spacing
+        random_offset = uniform(16, GAME_HEIGHT - 16 - self._spacing)
         self._position = pygame.Vector2(GAME_WIDTH + self._top.get_width(), GAME_HEIGHT - random_offset)
 
         self._bottom_rect.topleft = self._position
-        self._top_rect.topleft = (self._position.x, self._position.y - GameStats.obstacle_spacing - self._top.get_height())
+        self._top_rect.topleft = (self._position.x, self._position.y - self._spacing - self._top.get_height())
 
         CollisionChecker.add_collider(self._top_rect)
         CollisionChecker.add_collider(self._bottom_rect)
 
     def update(self, dt) -> None:
-        self._position.x -= GameStats.obstacle_movement_speed * dt
-        self._bottom_rect.topleft = self._position
-        self._top_rect.topleft = (self._position.x, self._position.y - GameStats.obstacle_spacing - self._top.get_height())
+        if GameStats.current_state == GameState.PLAYING:
+            self._position.x -= GameStats.obstacle_movement_speed * dt
+            self._bottom_rect.topleft = self._position
+            self._top_rect.topleft = (self._position.x, self._position.y - self._spacing - self._top.get_height())
 
     def draw(self, game_surf) -> None:
         game_surf.blit(self._bottom, self._bottom_rect.topleft)
