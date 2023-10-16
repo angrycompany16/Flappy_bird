@@ -31,6 +31,10 @@ class Player(Object):
             GameStats.current_state = GameState.GAME_OVER
 
     def draw(self, game_surf) -> None:
+        img_center = self._image.get_rect().center
+        rotated_image = pygame.transform.rotate(self._image, self._velocity)
+        new_rect = rotated_image.get_rect(center=image)
+
         self._image.convert_alpha()
         game_surf.blit(self._image, self._rect.topleft)
         pygame.draw.rect(game_surf, RED, self._rect, 1)

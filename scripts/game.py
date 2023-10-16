@@ -21,6 +21,7 @@ class Game:
 
         self._background_image = pygame.image.load("images/background.png")
         self._floor_image = pygame.image.load("images/floor.png")
+        self._floor_scroll = 0
 
         self._objects = []
         self._objects.append(self._player)
@@ -30,14 +31,17 @@ class Game:
         self._game_surf.fill(BLACK)
         dt = self._clock.tick() / 1000      # dt in seconds
 
+        self._floor_scroll -= GameStats.obstacle_movement_speed * dt
+        if self._floor_scroll < -self._floor_image.get_width():
+            self._floor_scroll = 0
+        
         self._background_surf.fill(RED)
         match GameStats.current_state:
             case GameState.START_MENU:
                 self._start_menu_surf.fill(pygame.Color(0, 0, 0, 0))
-                self._start_menu_surf.blit(self._floor_image, (0, 0))
+                self._start_menu_surf.blit(self._floor_image, (round(self._floor_scroll), 0))
+                self._start_menu_surf.blit(self._floor_image, (round(self._floor_scroll) + self._floor_image.get_width(), 0))
                 self._background_surf.blit(self._background_image, (0, 0))
-
-
 
                 self._game_surf.blit(self._background_surf, (0, 0))
                 self._game_surf.blit(self._start_menu_surf, (0, 0))
@@ -47,19 +51,19 @@ class Game:
                 self._playing_surf.fill(pygame.Color(0, 0, 0, 0))
                 self._playing_surf.convert_alpha()
                 self._background_surf.blit(self._background_image, (0, 0))
-                self._playing_surf.blit(self._floor_image, (0, 0))
 
                 for object in self._objects:
                     object.update(dt)
                     object.draw(self._playing_surf)
 
+                self._playing_surf.blit(self._floor_image, (round(self._floor_scroll), 0))
+                self._playing_surf.blit(self._floor_image, (round(self._floor_scroll) + self._floor_image.get_width(), 0))
                 self._game_surf.blit(self._background_surf, (0, 0))
                 self._game_surf.blit(self._playing_surf, (0, 0))
             case GameState.GAME_OVER:
                 self._game_over_surf.fill(pygame.Color(0, 0, 0, 0))
                 self._background_surf.blit(self._background_image, (0, 0))
                 self._playing_surf.fill(pygame.Color(0, 0, 0, 0))                
-                self._playing_surf.blit(self._floor_image, (0, 0))
 
                 GameStats.obstacle_movement_speed = 0
 
@@ -67,6 +71,8 @@ class Game:
                     object.update(dt)
                     object.draw(self._playing_surf)
 
+                self._playing_surf.blit(self._floor_image, (round(self._floor_scroll), 0))
+                self._playing_surf.blit(self._floor_image, (round(self._floor_scroll) + self._floor_image.get_width(), 0))
                 self._game_surf.blit(self._background_surf, (0, 0))
                 self._game_surf.blit(self._playing_surf, (0, 0))
                 self._game_surf.blit(self._game_over_surf, (0, 0))
@@ -76,7 +82,6 @@ class Game:
                 print("Game state error")
 
 
-        
     def handle_input(self, key) -> None:
         if key == pygame.K_UP or key == pygame.K_SPACE:
             if GameStats.current_state == GameState.START_MENU:
