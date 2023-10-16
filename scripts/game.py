@@ -24,8 +24,8 @@ class Game:
         self._floor_scroll = 0
 
         self._objects = []
-        self._objects.append(self._player)
         self._objects.append(Obstacle())
+        self._objects.append(self._player)
 
     def update(self) -> None:
         self._game_surf.fill(BLACK)
