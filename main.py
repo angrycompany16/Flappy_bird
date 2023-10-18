@@ -6,6 +6,7 @@ SCREEN_WIDTH, SCREEN_HEIGHT = GAME_WIDTH * PIXEL_SCALE_FACTOR, GAME_HEIGHT * PIX
 
 def main():
     pygame.init()
+    pygame.font.init()
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Flappy!")

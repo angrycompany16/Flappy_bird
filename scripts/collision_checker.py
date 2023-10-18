@@ -5,6 +5,10 @@ class CollisionChecker:
     def add_collider(cls, collider) -> bool:
         cls.colliders.append(collider)
     
+    @classmethod 
+    def clear_colliders(cls) -> None:
+        cls.colliders = []
+
     @classmethod
     def check_collisions(cls, collider) -> bool:
         for other in cls.colliders:

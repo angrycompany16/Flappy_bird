@@ -13,6 +13,7 @@ class GameStats():
     obstacle_spawn_period = 2
 
     current_state = GameState.START_MENU
+    points = 0
 
     @classmethod
     def update_stats(cls, dt):

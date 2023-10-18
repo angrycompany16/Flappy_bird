@@ -13,6 +13,7 @@ JUMP_SPEED = 30
 
 PLAYER_LEFT_POS = 20            # player is positioned 20 px to the right on the screen
 
+SCORE_Y_POS = 30
 
 BLACK = pygame.Color(0, 0, 0)
 WHITE = pygame.Color(255, 255, 255)

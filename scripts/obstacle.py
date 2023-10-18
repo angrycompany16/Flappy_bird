@@ -23,11 +23,18 @@ class Obstacle(Object):
         CollisionChecker.add_collider(self._top_rect)
         CollisionChecker.add_collider(self._bottom_rect)
 
+        self._passed = False
+
     def update(self, dt) -> None:
         if GameStats.current_state == GameState.PLAYING:
             self._position.x -= GameStats.obstacle_movement_speed * dt
             self._bottom_rect.topleft = self._position
-            self._top_rect.topleft = (self._position.x, self._position.y - self._spacing - self._top.get_height())
+            self._top_rect.topleft = (self._position.x, self._position.y - 
+            self._spacing - self._top.get_height())
+            
+            if self._top_rect.left < PLAYER_LEFT_POS and not self._passed:
+                GameStats.points += 1
+                self._passed = True
 
     def draw(self, game_surf) -> None:
         game_surf.blit(self._bottom, self._bottom_rect.topleft)
