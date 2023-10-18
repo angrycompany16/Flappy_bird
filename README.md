@@ -7,4 +7,4 @@ Yeah that's about it
 
 ![plot](./images/flap1.png)
 
-![plot](./images/flap1.png)
+![plot](./images/flap2.png)
