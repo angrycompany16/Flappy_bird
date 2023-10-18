@@ -3,7 +3,7 @@
 Flappy bird recreated in Pygame. 
 Yeah that's about it
 
-~Pictures~
+## 𝒫𝒾𝒸𝓉𝓊𝓇𝑒𝓈
 
 ![plot](./images/flap1.png)
 
